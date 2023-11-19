@@ -91,14 +91,24 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Jetbrains
-    'doums/dark.nvim',
+    -- Nightfox theme
+    "EdenEast/nightfox.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'dark'
+      vim.cmd.colorscheme 'nightfox'
     end,
   },
+
+  -- {
+  --   -- Theme inspired by Jetbrains
+  --   'doums/dark.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'dark'
+  --   end,
+  -- },
 
   -- {
   --   -- Theme inspired by Atom
@@ -109,13 +119,46 @@ require('lazy').setup({
   --   end,
   -- },
 
+  -- {
+  --   -- Tokyo Night theme
+  --   "folke/tokyonight.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'tokyonight-night'
+  --   end,
+  -- },
+
+  -- {
+  --   -- Catppuccin theme
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   config = function()
+  --     require("catppuccin").setup({
+  --       flavor = "mocha",
+  --       integrations = {
+  --         cmp = true,
+  --         gitsigns = true,
+  --         nvimtree = true,
+  --         treesitter = true,
+  --         which_key = true,
+  --         mini = {
+  --           enabled = true,
+  --         },
+  --       },
+  --     })
+  --     vim.cmd.colorscheme 'catppuccin'
+  --   end,
+  -- },
+
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = 'onedark',
         component_separators = '|',
         section_separators = '',
@@ -212,6 +255,21 @@ require('lazy').setup({
   -- Mini
   { 'echasnovski/mini.nvim', version = '*' },
 
+  {
+    -- Bufferline
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    opts = {
+      options = {
+        diagnostics = "nvim_lsp",
+        diagnostics_indicator = function(count, level, diagnostics_dict, context)
+          local icon = level:match("error") and " " or " "
+          return " " .. icon .. count
+        end
+      },
+    },
+  }
 
 }, {})
   

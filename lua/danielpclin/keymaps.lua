@@ -23,8 +23,8 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 -- Delete to blackhole buffer
 -- vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
--- Substitute all occurrences of the word under the cursor
--- vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- Rename all occurrences of the word under the cursor
+vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 local trim_whitespace_group = vim.api.nvim_create_augroup('BufWriteTrimWhitespace', { clear = true })
-vim.api.nvim_create_autocmd('BufWriteTrimWhitespace', {
+vim.api.nvim_create_autocmd('BufWritePre', {
   callback = function()
     MiniTrailspace.trim()
   end,
