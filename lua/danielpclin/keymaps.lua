@@ -10,6 +10,9 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set('n', '<Up>', "v:count == 0 ? 'gk' : '<Up>'", { expr = true, silent = true })
 vim.keymap.set('n', '<Down>', "v:count == 0 ? 'gj' : '<Down>'", { expr = true, silent = true })
 
+-- Disable ex mode
+vim.keymap.set("n", "Q", "<nop>")
+
 -- Allow second paste in visual mode
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
@@ -37,6 +40,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
   group = highlight_group,
+  pattern = '*',
+})
+
+local trim_whitespace_group = vim.api.nvim_create_augroup('BufWriteTrimWhitespace', { clear = true })
+vim.api.nvim_create_autocmd('BufWriteTrimWhitespace', {
+  callback = function()
+    MiniTrailspace.trim()
+  end,
+  group = trim_whitespace_group,
   pattern = '*',
 })
 
