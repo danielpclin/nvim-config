@@ -49,5 +49,9 @@ require('danielpclin.trouble-setup')
 -- (mini)
 require('danielpclin.mini-setup')
 
+-- [[ Configure which-keys ]]
+-- (pending keybinds)
+require('danielpclin.which-keys-setup')
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
