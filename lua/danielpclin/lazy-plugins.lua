@@ -245,6 +245,8 @@ require('lazy').setup({
     }
   },
 
+  { 'miversen33/netman.nvim' },
+
   -- Undo history
   'mbbill/undotree',
 
