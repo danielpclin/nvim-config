@@ -255,7 +255,11 @@ require('lazy').setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
     main = 'ibl',
-    opts = {},
+    opts = {
+      scope = {
+        enabled = false,
+      }
+    },    
   },
 
   -- "gc" to comment visual regions/lines
@@ -325,13 +329,14 @@ require('lazy').setup({
     }
   },
 
+  -- Network resource manager
   { 'miversen33/netman.nvim' },
 
   -- Undo history
   { 'mbbill/undotree' },
 
   {
-    -- Quickfix
+    -- Diagnostics
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
