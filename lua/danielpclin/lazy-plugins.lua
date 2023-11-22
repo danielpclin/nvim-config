@@ -121,7 +121,7 @@ require('lazy').setup({
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local conform = require("conform")
-  
+
       conform.setup({
         formatters_by_ft = {
           -- javascript = { "prettier" },
@@ -168,7 +168,7 @@ require('lazy').setup({
     },
     config = function()
       local lint = require("lint")
-  
+
       lint.linters_by_ft = {
         javascript = { "eslint_d" },
         typescript = { "eslint_d" },
@@ -177,16 +177,16 @@ require('lazy').setup({
         svelte = { "eslint_d" },
         python = { "pylint" },
       }
-  
+
       -- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-  
+
       -- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
       --   group = lint_augroup,
       --   callback = function()
       --     lint.try_lint()
       --   end,
       -- })
-  
+
       vim.keymap.set("n", "<leader>cl", function()
         lint.try_lint()
       end, { desc = "[C]ode [L]int" })
@@ -195,6 +195,13 @@ require('lazy').setup({
 
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim', opts = {} },
+
+  -- {
+  --   -- TODO list
+  --   "folke/todo-comments.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   opts = {},
+  -- },
 
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -259,7 +266,7 @@ require('lazy').setup({
       scope = {
         enabled = false,
       }
-    },    
+    },
   },
 
   -- "gc" to comment visual regions/lines
@@ -306,11 +313,11 @@ require('lazy').setup({
     dependencies = {
       -- Creates a beautiful debugger UI
       'rcarriga/nvim-dap-ui',
-  
+
       -- Installs the debug adapters for you
       'williamboman/mason.nvim',
       'jay-babu/mason-nvim-dap.nvim',
-  
+
       -- Add your own debuggers here
       'leoluz/nvim-dap-go',
       'mfussenegger/nvim-dap-python',
@@ -362,5 +369,5 @@ require('lazy').setup({
   }
 
 }, {})
-  
+
 -- vim: ts=2 sts=2 sw=2 et
