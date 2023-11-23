@@ -48,14 +48,14 @@ end
 require('mason').setup()
 require('mason-lspconfig').setup()
 require("mason-tool-installer").setup({
-  ensure_installed = {
-    "prettier", -- prettier formatter
-    "stylua", -- lua formatter
-    "isort", -- python formatter
-    "black", -- python formatter
-    "pylint", -- python linter
-    "eslint_d", -- js linter
-  },
+  -- ensure_installed = {
+  --   "prettier", -- prettier formatter
+  --   "stylua", -- lua formatter
+  --   "isort", -- python formatter
+  --   "black", -- python formatter
+  --   "pylint", -- python linter
+  --   "eslint_d", -- js linter
+  -- },
 })
 
 -- Enable the following language servers
