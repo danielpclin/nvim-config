@@ -208,6 +208,7 @@ require('lazy').setup({
     'lewis6991/gitsigns.nvim',
     opts = {
       -- See `:help gitsigns.txt`
+      _extmark_signs = false,
       signs = {
         add = { text = '+' },
         change = { text = '~' },
