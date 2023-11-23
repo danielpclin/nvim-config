@@ -35,7 +35,7 @@ require('danielpclin.dap-setup')
 
 -- [[ Configure neotree ]]
 -- (file tree)
-require('danielpclin.neotree-setup')
+require('danielpclin.nvimtree-setup')
 
 -- [[ Configure undotree ]]
 -- (undo history)
@@ -51,7 +51,7 @@ require('danielpclin.mini-setup')
 
 -- [[ Configure which-keys ]]
 -- (pending keybinds)
-require('danielpclin.which-keys-setup')
+require('danielpclin.whichkeys-setup')
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
