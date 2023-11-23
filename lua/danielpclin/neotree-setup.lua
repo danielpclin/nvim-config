@@ -5,7 +5,6 @@ require("neo-tree").setup({
     "filesystem", -- Neotree filesystem source
     "buffers",
     "git_status",
-    -- "netman.ui.neo-tree", -- The one you really care about 😉
   },
   event_handlers = {
     {
@@ -20,7 +19,6 @@ require("neo-tree").setup({
     winbar = true,
     sources = {
       { source = "filesystem" },
-      -- { source = "remote" },
       { source = "git_status" },
       { source = "buffers" },
     },
@@ -29,7 +27,6 @@ require("neo-tree").setup({
 
 
 vim.keymap.set("n", "<leader>vf", vim.cmd.Neotree, { desc = '[V]iew [F]ile Tree' })
--- vim.keymap.set("n", "<leader>vr", function() vim.cmd.Neotree 'remote' end, { desc = '[V]iew [R]emote' })
 vim.keymap.set("n", "<leader>vg", function() vim.cmd.Neotree 'git_status' end, { desc = '[V]iew [G]it Status' })
 vim.keymap.set("n", "<leader>vb", function() vim.cmd.Neotree 'buffers' end, { desc = '[V]iew [B]uffers' })
 

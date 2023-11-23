@@ -336,9 +336,6 @@ require('lazy').setup({
     }
   },
 
-  -- Network resource manager
-  -- { 'miversen33/netman.nvim' },
-
   -- Undo history
   { 'mbbill/undotree' },
 
