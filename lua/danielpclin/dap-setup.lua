@@ -50,6 +50,8 @@ dapui.setup {
   },
 }
 
+require("nvim-dap-virtual-text").setup()
+
 -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
 vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
 
