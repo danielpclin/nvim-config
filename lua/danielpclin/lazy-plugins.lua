@@ -116,6 +116,16 @@ require('lazy').setup({
   },
 
   {
+    -- Function signature hints
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {},
+    config = function(_, opts)
+      require'lsp_signature'.setup(opts)
+    end
+  },
+
+  {
     -- Formatting
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -362,7 +372,7 @@ require('lazy').setup({
         end
       },
     },
-  }
+  },
 
 }, {})
 
