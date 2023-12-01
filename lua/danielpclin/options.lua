@@ -25,6 +25,7 @@ vim.opt.undofile = true
 vim.opt.scrolloff = 8
 
 vim.opt.colorcolumn = "80"
+vim.opt.cursorline = true
 
 -- Setup folds with treesitter
 vim.opt.foldmethod = "expr"

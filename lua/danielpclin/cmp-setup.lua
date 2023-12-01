@@ -22,7 +22,7 @@ cmp.setup {
     ['<C-Space>'] = cmp.mapping.complete {},
     ['<M-`>'] = cmp.mapping.complete {}, -- Alternative for CJK IME users
     ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
+      behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     },
     ['<Tab>'] = cmp.mapping(function(fallback)
