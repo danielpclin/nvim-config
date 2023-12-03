@@ -7,15 +7,15 @@
 require('lazy').setup({
 
   -- Theme related
-  {
-    -- Nightfox theme
-    "EdenEast/nightfox.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'nightfox'
-    end,
-  },
+  -- {
+  --   -- Nightfox theme
+  --   "EdenEast/nightfox.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'nightfox'
+  --   end,
+  -- },
 
   -- {
   --   -- Theme inspired by Jetbrains
@@ -27,14 +27,19 @@ require('lazy').setup({
   --   end,
   -- },
 
-  -- {
-  --   -- Theme inspired by Atom
-  --   'navarasu/onedark.nvim',
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'onedark'
-  --   end,
-  -- },
+  {
+    -- Theme inspired by Atom
+    'navarasu/onedark.nvim',
+    priority = 1000,
+    config = function()
+      require('onedark').setup {
+        colors = {
+          bg0 = '#192330',
+        },
+      }
+      vim.cmd.colorscheme 'onedark'
+    end,
+  },
 
   -- {
   --   -- Tokyo Night theme

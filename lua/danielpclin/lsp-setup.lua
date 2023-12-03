@@ -76,17 +76,25 @@ require("mason-tool-installer").setup({
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  clangd = {},
+  clangd = {
+    -- cmd = {
+    --   "clangd", "--header-insertion=never",
+    -- },
+  },
   -- gopls = {},
   pyright = {},
   rust_analyzer = {},
   tsserver = {},
-  html = { filetypes = { 'html'} },
+  html = {
+    filetypes = { 'html'}
+  },
 
   lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+      },
     },
   },
 }
@@ -107,12 +115,15 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    require('lspconfig')[server_name].setup {
+    cfg = {
       capabilities = capabilities,
       on_attach = on_attach,
-      settings = servers[server_name],
       filetypes = (servers[server_name] or {}).filetypes,
     }
+    -- Setup settings, cmd etc..
+    for k,v in pairs(servers[server_name]) do cfg[k] = v end
+
+    require('lspconfig')[server_name].setup(cfg)
   end,
 }
 
