@@ -4,7 +4,7 @@ require("nvim-tree").setup({
     open_file = {
       quit_on_open = true,
     },
-  },    
+  },
 })
 
 vim.keymap.set("n", "<leader>vf", vim.cmd.NvimTreeToggle, { desc = '[V]iew [F]ile Tree' })

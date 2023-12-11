@@ -27,7 +27,7 @@ cmp.setup {
     },
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.confirm({ 
+        cmp.confirm({
           behavior = cmp.ConfirmBehavior.Insert,
           select = true
         })
@@ -57,7 +57,7 @@ cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.confirm({ 
+        cmp.confirm({
           behavior = cmp.ConfirmBehavior.Insert,
           select = true
         })

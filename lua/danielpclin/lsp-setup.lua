@@ -115,7 +115,7 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    cfg = {
+    local cfg = {
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = (servers[server_name] or {}).filetypes,
