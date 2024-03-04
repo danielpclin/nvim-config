@@ -201,12 +201,12 @@ require('lazy').setup({
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim', opts = {} },
 
-  -- {
-  --   -- TODO list
-  --   "folke/todo-comments.nvim",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  --   opts = {},
-  -- },
+  {
+    -- TODO list
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = { signs = false },
+  },
 
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
