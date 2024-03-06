@@ -63,4 +63,7 @@ vim.opt.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.opt.termguicolors = true
 
+-- Set grep max memory
+vim.opt.maxmempattern = 5000
+
 -- vim: ts=2 sts=2 sw=2 et
