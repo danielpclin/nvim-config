@@ -113,10 +113,13 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
 
       -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
+      -- 'rafamadriz/friendly-snippets',
 
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
+
+      -- pictograms completion-menu
+      'onsails/lspkind.nvim'
     },
   },
 
