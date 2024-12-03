@@ -84,7 +84,7 @@ local servers = {
   -- gopls = {},
   pyright = {},
   rust_analyzer = {},
-  tsserver = {},
+  ts_ls = {},
   html = {
     filetypes = { 'html'}
   },
@@ -121,7 +121,7 @@ mason_lspconfig.setup_handlers {
       filetypes = (servers[server_name] or {}).filetypes,
     }
     -- Setup settings, cmd etc..
-    for k,v in pairs(servers[server_name]) do cfg[k] = v end
+    for k,v in pairs(servers[server_name] or {}) do cfg[k] = v end
 
     require('lspconfig')[server_name].setup(cfg)
   end,
