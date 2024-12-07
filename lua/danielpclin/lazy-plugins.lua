@@ -107,13 +107,19 @@ require('lazy').setup({
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
+    lazy = false,
+    priority = 100,
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
 
+      -- Adds nvim lua knowledge
+      'hrsh7th/cmp-nvim-lua',
+
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
 
       -- Adds a number of user-friendly snippets
       -- 'rafamadriz/friendly-snippets',
@@ -122,9 +128,18 @@ require('lazy').setup({
       'hrsh7th/cmp-cmdline',
 
       -- pictograms completion-menu
-      'onsails/lspkind.nvim'
+      'onsails/lspkind.nvim',
+
+      'hrsh7th/cmp-buffer',
+      'roobert/tailwindcss-colorizer-cmp.nvim',
     },
   },
+
+  -- {
+  --   "ray-x/lsp_signature.nvim",
+  --   event = "VeryLazy",
+  --   config = function(opts) require'lsp_signature'.setup(opts) end
+  -- },
 
   {
     -- Formatting
@@ -376,6 +391,16 @@ require('lazy').setup({
       },
     },
   },
+
+  { 'm4xshen/autoclose.nvim', opts = {} },
+
+  -- {
+  --   'windwp/nvim-autopairs',
+  --   event = "InsertEnter",
+  --   config = true
+  --   -- use opts = {} for passing setup options
+  --   -- this is equivalent to setup({}) function
+  -- },
 
 }, {})
 

@@ -1,14 +1,14 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- [[ Setting options ]]
+require('danielpclin.options')
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 require('danielpclin.lazy-bootstrap')
 
 -- [[ Configure plugins ]]
 require('danielpclin.lazy-plugins')
-
--- [[ Setting options ]]
-require('danielpclin.options')
 
 -- [[ Basic Keymaps ]]
 require('danielpclin.keymaps')

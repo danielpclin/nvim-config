@@ -3,6 +3,19 @@
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 local lspkind = require 'lspkind'
+
+local kind_formatter = lspkind.cmp_format {
+  mode = "symbol_text",
+  menu = {
+    buffer = "[buf]",
+    nvim_lsp = "[LSP]",
+    nvim_lua = "[api]",
+    path = "[path]",
+    luasnip = "[snip]",
+    gh_issues = "[issues]",
+  },
+}
+
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
@@ -21,7 +34,7 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
-    ['<M-`>'] = cmp.mapping.complete {}, -- Alternative for CJK IME users
+    -- ['<M-`>'] = cmp.mapping.complete {}, -- Alternative for CJK IME users -- FIXME: disabled because of bug https://github.com/hrsh7th/nvim-cmp/pull/2107
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
@@ -29,7 +42,7 @@ cmp.setup {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm({
-          behavior = cmp.ConfirmBehavior.Insert,
+          behavior = cmp.ConfirmBehavior.Replace,
           select = true
         })
       elseif luasnip.expand_or_locally_jumpable() then
@@ -50,18 +63,48 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
+    { name = 'path' },
     { name = 'luasnip' },
+    { name = 'nvim_lua' },
+    { name = "buffer", keyword_length = 5 },
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
+    expandable_indicator = true,
     format = function(entry, vim_item)
-      local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
-      local strings = vim.split(kind.kind, "%s", { trimempty = true })
-      kind.kind = " " .. (strings[1] or "") .. " "
-      kind.menu = "    (" .. (strings[2] or "") .. ")"
+      vim_item = kind_formatter(entry, vim_item)
 
-      return kind
+      -- Tailwind colorizer setup
+      vim_item = require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
+
+      return vim_item
     end,
+  },
+  experimental = {
+    ghost_text = true,
+  },
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      -- require("copilot_cmp.comparators").prioritize,
+
+      -- Below is the default comparitor list and order for nvim-cmp
+      cmp.config.compare.offset,
+      -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.locality,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
   },
 }
 
@@ -92,5 +135,12 @@ cmp.setup.cmdline(':', {
   })
 })
 
+-- Setup up vim-dadbod
+-- cmp.setup.filetype({ "sql" }, {
+--   sources = {
+--     { name = "vim-dadbod-completion" },
+--     { name = "buffer" },
+--   },
+-- })
 
 -- vim: ts=2 sts=2 sw=2 et
