@@ -392,15 +392,17 @@ require('lazy').setup({
     },
   },
 
-  { 'm4xshen/autoclose.nvim', opts = {} },
-
-  -- {
-  --   'windwp/nvim-autopairs',
-  --   event = "InsertEnter",
-  --   config = true
-  --   -- use opts = {} for passing setup options
-  --   -- this is equivalent to setup({}) function
-  -- },
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true,
+    opts = {
+      -- check_ts = true,
+      -- fast_wrap = {
+      --   chars = { '{', '[', '(', '"', "'" },
+      -- },
+    }
+  },
 
 }, {})
 

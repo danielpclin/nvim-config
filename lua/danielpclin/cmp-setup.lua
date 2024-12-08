@@ -14,6 +14,11 @@ local kind_formatter = lspkind.cmp_format {
     luasnip = "[snip]",
     gh_issues = "[issues]",
   },
+  maxwidth = {
+    menu = 50, -- leading text (labelDetails)
+    abbr = 50, -- actual suggestion item
+  },
+  show_labelDetails = true,
 }
 
 require('luasnip.loaders.from_vscode').lazy_load()
@@ -64,7 +69,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'nvim_lsp_signature_help' },
-    { name = 'path' },
+    { name = 'path', keyword_length = 2 },
     { name = 'luasnip' },
     { name = 'nvim_lua' },
     { name = "buffer", keyword_length = 5 },
@@ -82,7 +87,7 @@ cmp.setup {
     end,
   },
   experimental = {
-    ghost_text = true,
+    -- ghost_text = true,
   },
   sorting = {
     priority_weight = 2,
