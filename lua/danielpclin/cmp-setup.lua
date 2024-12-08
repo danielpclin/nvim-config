@@ -1,8 +1,8 @@
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-local lspkind = require 'lspkind'
+local cmp = require "cmp"
+local luasnip = require "luasnip"
+local lspkind = require "lspkind"
 
 local kind_formatter = lspkind.cmp_format {
   mode = "symbol_text",
@@ -21,7 +21,7 @@ local kind_formatter = lspkind.cmp_format {
   show_labelDetails = true,
 }
 
-require('luasnip.loaders.from_vscode').lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
@@ -31,32 +31,32 @@ cmp.setup {
     end,
   },
   completion = {
-    completeopt = 'menu,menuone,noinsert'
+    completeopt = "menu,menuone,noinsert",
   },
   mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-u>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-u>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete {},
     -- ['<M-`>'] = cmp.mapping.complete {}, -- Alternative for CJK IME users -- FIXME: disabled because of bug https://github.com/hrsh7th/nvim-cmp/pull/2107
-    ['<CR>'] = cmp.mapping.confirm {
+    ["<CR>"] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.confirm({
+        cmp.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
-          select = true
-        })
+          select = true,
+        }
       elseif luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
       else
         fallback()
       end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.locally_jumpable(-1) then
@@ -64,14 +64,14 @@ cmp.setup {
       else
         fallback()
       end
-    end, { 'i', 's' }),
+    end, { "i", "s" }),
   },
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'nvim_lsp_signature_help' },
-    { name = 'path', keyword_length = 2 },
-    { name = 'luasnip' },
-    { name = 'nvim_lua' },
+    { name = "nvim_lsp" },
+    { name = "nvim_lsp_signature_help" },
+    { name = "path", keyword_length = 2 },
+    { name = "luasnip" },
+    { name = "nvim_lua" },
     { name = "buffer", keyword_length = 5 },
   },
   formatting = {
@@ -113,31 +113,31 @@ cmp.setup {
   },
 }
 
-cmp.setup.cmdline(':', {
+cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline {
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.confirm({
+        cmp.confirm {
           behavior = cmp.ConfirmBehavior.Insert,
-          select = true
-        })
+          select = true,
+        }
       else
         cmp.complete()
       end
-    end, { 'c' }),
-    ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'c' }),
-    ['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'c' }),
+    end, { "c" }),
+    ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item(), { "c" }),
+    ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "c" }),
   },
   sources = cmp.config.sources({
-    { name = 'path' }
+    { name = "path" },
   }, {
     {
-      name = 'cmdline',
+      name = "cmdline",
       option = {
-        ignore_cmds = { 'Man', '!' }
-      }
-    }
-  })
+        ignore_cmds = { "Man", "!" },
+      },
+    },
+  }),
 })
 
 -- Setup up vim-dadbod

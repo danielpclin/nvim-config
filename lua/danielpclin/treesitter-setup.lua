@@ -2,9 +2,22 @@
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
-  require('nvim-treesitter.configs').setup {
+  require("nvim-treesitter.configs").setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = {
+      "c",
+      "cpp",
+      "go",
+      "lua",
+      "python",
+      "rust",
+      "tsx",
+      "javascript",
+      "typescript",
+      "vimdoc",
+      "vim",
+      "bash",
+    },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -14,10 +27,10 @@ vim.defer_fn(function()
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = '<CR>',
-        node_incremental = '<CR>',
-        node_decremental = '<BS>',
-        scope_incremental = '<M-`>',
+        init_selection = "<CR>",
+        node_incremental = "<CR>",
+        node_decremental = "<BS>",
+        scope_incremental = "<M-`>",
       },
     },
     textobjects = {
@@ -101,7 +114,7 @@ vim.defer_fn(function()
     },
   }
 
-  local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+  local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
   -- vim way: ; goes to the direction you were moving.
   vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
@@ -112,7 +125,6 @@ vim.defer_fn(function()
   vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
   vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
   vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
-
 end, 0)
-  
+
 -- vim: ts=2 sts=2 sw=2 et

@@ -4,7 +4,7 @@
 --
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
-require('lazy').setup({
+require("lazy").setup({
 
   -- Theme related
   -- {
@@ -29,15 +29,15 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    "navarasu/onedark.nvim",
     priority = 1000,
     config = function()
-      require('onedark').setup {
+      require("onedark").setup {
         colors = {
-          bg0 = '#192330',
+          bg0 = "#192330",
         },
       }
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme "onedark"
     end,
   },
 
@@ -75,63 +75,63 @@ require('lazy').setup({
   -- },
 
   -- Git related plugins
-  { 'tpope/vim-fugitive' },
-  { 'tpope/vim-rhubarb' },
+  { "tpope/vim-fugitive" },
+  { "tpope/vim-rhubarb" },
 
   -- Detect tabstop and shiftwidth automatically
-  { 'tpope/vim-sleuth' },
+  { "tpope/vim-sleuth" },
 
   -- Surroundings with ds cs ys
-  { 'tpope/vim-surround' },
+  { "tpope/vim-surround" },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   -- The configuration is done below. Search for lspconfig to find it below.
   {
     -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { "j-hui/fidget.nvim", opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+      "folke/neodev.nvim",
     },
   },
 
   {
     -- Autocompletion
-    'hrsh7th/nvim-cmp',
+    "hrsh7th/nvim-cmp",
     lazy = false,
     priority = 100,
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
 
       -- Adds nvim lua knowledge
-      'hrsh7th/cmp-nvim-lua',
+      "hrsh7th/cmp-nvim-lua",
 
       -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
 
       -- Adds a number of user-friendly snippets
       -- 'rafamadriz/friendly-snippets',
 
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
 
       -- pictograms completion-menu
-      'onsails/lspkind.nvim',
+      "onsails/lspkind.nvim",
 
-      'hrsh7th/cmp-buffer',
-      'roobert/tailwindcss-colorizer-cmp.nvim',
+      "hrsh7th/cmp-buffer",
+      "roobert/tailwindcss-colorizer-cmp.nvim",
     },
   },
 
@@ -146,9 +146,9 @@ require('lazy').setup({
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local conform = require("conform")
+      local conform = require "conform"
 
-      conform.setup({
+      conform.setup {
         formatters_by_ft = {
           -- javascript = { "prettier" },
           -- typescript = { "prettier" },
@@ -161,27 +161,47 @@ require('lazy').setup({
           -- yaml = { "prettier" },
           -- markdown = { "prettier" },
           -- graphql = { "prettier" },
-          -- lua = { "stylua" },
+          lua = { "stylua" },
+          blade = { "blade-formatter" },
           python = { "isort", "black" },
         },
         -- Customize formatters
-        formatters = {
-        },
+        formatters = {},
         -- Uncomment if you want to format on save
         -- format_on_save = {
         --   lsp_fallback = true,
         --   async = false,
         --   timeout_ms = 500,
         -- },
-      })
+      }
+
+      conform.formatters.injected = {
+        options = {
+          ignore_errors = false,
+          lang_to_formatters = {
+            sql = { "sleek" },
+          },
+        },
+      }
 
       vim.keymap.set({ "n", "v" }, "<leader>cf", function()
-        conform.format({
+        conform.format {
           lsp_fallback = true,
           async = false,
           timeout_ms = 500,
-        })
+        }
       end, { desc = "[C]ode [F]ormat" })
+
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = vim.api.nvim_create_augroup("custom-conform", { clear = true }),
+        callback = function(args)
+          require("conform").format {
+            bufnr = args.buf,
+            lsp_fallback = true,
+            quiet = true,
+          }
+        end,
+      })
     end,
   },
 
@@ -193,7 +213,7 @@ require('lazy').setup({
       "BufNewFile",
     },
     config = function()
-      local lint = require("lint")
+      local lint = require "lint"
 
       lint.linters_by_ft = {
         javascript = { "eslint_d" },
@@ -220,7 +240,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { "folke/which-key.nvim", opts = {} },
 
   {
     -- TODO list
@@ -231,125 +251,129 @@ require('lazy').setup({
 
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
+    "lewis6991/gitsigns.nvim",
     opts = {
       -- See `:help gitsigns.txt`
       signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>ghp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'git hunk Preview' })
+        vim.keymap.set(
+          "n",
+          "<leader>ghp",
+          require("gitsigns").preview_hunk,
+          { buffer = bufnr, desc = "[G]it [H]unk [P]review" }
+        )
 
         -- don't override the built-in and fugitive keymaps
         local gs = package.loaded.gitsigns
-        vim.keymap.set({ 'n', 'v' }, ']c', function()
+        vim.keymap.set({ "n", "v" }, "]c", function()
           if vim.wo.diff then
-            return ']c'
+            return "]c"
           end
           vim.schedule(function()
             gs.next_hunk()
           end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
-        vim.keymap.set({ 'n', 'v' }, '[c', function()
+          return "<Ignore>"
+        end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
+        vim.keymap.set({ "n", "v" }, "[c", function()
           if vim.wo.diff then
-            return '[c'
+            return "[c"
           end
           vim.schedule(function()
             gs.prev_hunk()
           end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
+          return "<Ignore>"
+        end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
       end,
     },
   },
 
   {
     -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
+    "nvim-lualine/lualine.nvim",
     -- See `:help lualine.txt`
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
+        theme = "onedark",
+        component_separators = "|",
+        section_separators = "",
       },
     },
   },
 
   {
     -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
+    "lukas-reineke/indent-blankline.nvim",
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
-    main = 'ibl',
+    main = "ibl",
     opts = {
       scope = {
         enabled = false,
-      }
+      },
     },
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { "numToStr/Comment.nvim", opts = {} },
 
   {
     -- Fuzzy Finder (files, lsp, etc)
-    'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      "nvim-lua/plenary.nvim",
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
       -- Only load if `make` is available. Make sure you have the system
       -- requirements installed.
       {
-        'nvim-telescope/telescope-fzf-native.nvim',
+        "nvim-telescope/telescope-fzf-native.nvim",
         -- NOTE: If you are having trouble with this installation,
         --       refer to the README for telescope-fzf-native for more instructions.
-        build = 'make',
+        build = "make",
         cond = function()
-          return vim.fn.executable 'make' == 1
+          return vim.fn.executable "make" == 1
         end,
       },
     },
   },
 
-
   {
     -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      "nvim-treesitter/nvim-treesitter-textobjects",
     },
-    build = ':TSUpdate',
+    build = ":TSUpdate",
   },
 
   -- Show context
-  { 'nvim-treesitter/nvim-treesitter-context' },
+  { "nvim-treesitter/nvim-treesitter-context" },
 
   {
     -- Debug
-    'mfussenegger/nvim-dap',
+    "mfussenegger/nvim-dap",
     -- NOTE: And you can specify dependencies as well
     dependencies = {
-      'nvim-neotest/nvim-nio',
+      "nvim-neotest/nvim-nio",
 
       -- Creates a beautiful debugger UI
-      'rcarriga/nvim-dap-ui',
-      'theHamsta/nvim-dap-virtual-text',
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
 
       -- Installs the debug adapters for you
-      'williamboman/mason.nvim',
-      'jay-babu/mason-nvim-dap.nvim',
+      "williamboman/mason.nvim",
+      "jay-babu/mason-nvim-dap.nvim",
 
       -- Add your own debuggers here
-      'leoluz/nvim-dap-go',
-      'mfussenegger/nvim-dap-python',
+      "leoluz/nvim-dap-go",
+      "mfussenegger/nvim-dap-python",
     },
   },
 
@@ -364,7 +388,7 @@ require('lazy').setup({
   },
 
   -- Undo history
-  { 'mbbill/undotree' },
+  { "mbbill/undotree" },
 
   {
     -- Diagnostics
@@ -374,26 +398,26 @@ require('lazy').setup({
   },
 
   -- Mini
-  { 'echasnovski/mini.nvim', version = '*' },
+  { "echasnovski/mini.nvim", version = "*" },
 
   {
     -- Bufferline
-    'akinsho/bufferline.nvim',
+    "akinsho/bufferline.nvim",
     version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    dependencies = "nvim-tree/nvim-web-devicons",
     opts = {
       options = {
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function(count, level, diagnostics_dict, context)
-          local icon = level:match("error") and " " or " "
+          local icon = level:match "error" and " " or " "
           return " " .. icon .. count
-        end
+        end,
       },
     },
   },
 
   {
-    'windwp/nvim-autopairs',
+    "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = true,
     opts = {
@@ -401,9 +425,8 @@ require('lazy').setup({
       -- fast_wrap = {
       --   chars = { '{', '[', '(', '"', "'" },
       -- },
-    }
+    },
   },
-
 }, {})
 
 -- vim: ts=2 sts=2 sw=2 et

@@ -1,25 +1,16 @@
-
 -- document existing key chains
--- require('which-key').register {
---   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
---   -- ['<leader>d'] = { name = '', _ = 'which_key_ignore' },
---   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
---   -- ['<leader>h'] = { name = '', _ = 'which_key_ignore' },
---   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
---   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
---   ['<leader>v'] = { name = '[V]iew', _ = 'which_key_ignore' },
---   ['<leader>vc'] = { name = '[V]iew [C]ode', _ = 'which_key_ignore' },
---   ['<leader>vd'] = { name = '[V]iew [D]ocument', _ = 'which_key_ignore' },
---   ['<leader>vw'] = { name = '[V]iew [W]orkspace', _ = 'which_key_ignore' },
---   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
---   ['<leader>x'] = { name = 'Troubleshoot', _ = 'which_key_ignore' },
--- }
 
-require('which-key').add {
+require("which-key").add {
   { "<leader>c", group = "[C]ode" },
   { "<leader>c_", hidden = true },
   { "<leader>g", group = "[G]it" },
   { "<leader>g_", hidden = true },
+  { "<leader>gh", group = "[G]it [H]unk" },
+  { "<leader>gh_", hidden = true },
+  { "<leader>n", group = "Swap [N]ext" },
+  { "<leader>n_", hidden = true },
+  { "<leader>p", group = "Swap [P]revious" },
+  { "<leader>p_", hidden = true },
   { "<leader>r", group = "[R]ename" },
   { "<leader>r_", hidden = true },
   { "<leader>s", group = "[S]earch" },
@@ -34,7 +25,7 @@ require('which-key').add {
   { "<leader>vw_", hidden = true },
   { "<leader>w", group = "[W]orkspace" },
   { "<leader>w_", hidden = true },
-  { "<leader>x", group = "Troubleshoot" },
+  { "<leader>x", group = "[X] Troubleshoot" },
   { "<leader>x_", hidden = true },
 }
 

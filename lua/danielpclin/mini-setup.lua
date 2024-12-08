@@ -1,9 +1,8 @@
-
-require('mini.move').setup({})
-require('mini.trailspace').setup({})
+require("mini.move").setup {}
+require("mini.trailspace").setup {}
 -- require('mini.pairs').setup({})
-require('mini.surround').setup({})
-require('mini.cursorword').setup({})
+require("mini.surround").setup {}
+require("mini.cursorword").setup {}
 
 -- local hipatterns = require('mini.hipatterns')
 -- hipatterns.setup({
