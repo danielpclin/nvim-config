@@ -76,7 +76,7 @@ cmp.setup {
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
-    expandable_indicator = true,
+    expandable_indicator = false,
     format = function(entry, vim_item)
       vim_item = kind_formatter(entry, vim_item)
 

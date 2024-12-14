@@ -24,7 +24,7 @@ local on_attach = function(_, bufnr)
   end
 
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-  nmap("<leader>vca", vim.lsp.buf.code_action, "[V]iew [C]ode [A]ction")
+  nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
   nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
@@ -36,7 +36,7 @@ local on_attach = function(_, bufnr)
   -- See `:help K` for why this keymap
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
   nmap("<C-s>", vim.lsp.buf.signature_help, "Signature Documentation")
-  imap("<C-k>", vim.lsp.buf.hover, "Hover Documentation")
+  imap("<C-q>", vim.lsp.buf.hover, "Hover Documentation")
   imap("<C-s>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality

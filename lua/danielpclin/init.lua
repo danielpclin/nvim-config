@@ -33,9 +33,13 @@ require "danielpclin.cmp-setup"
 -- (debug)
 require "danielpclin.dap-setup"
 
--- [[ Configure neotree ]]
+-- [[ Configure nvimtree ]]
 -- (file tree)
 require "danielpclin.nvimtree-setup"
+
+-- [[ Configure oil ]]
+-- (file explorer)
+require "danielpclin.oil"
 
 -- [[ Configure undotree ]]
 -- (undo history)

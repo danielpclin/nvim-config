@@ -7,25 +7,25 @@
 require("lazy").setup({
 
   -- Theme related
-  -- {
-  --   -- Nightfox theme
-  --   "EdenEast/nightfox.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'nightfox'
-  --   end,
-  -- },
+  {
+    -- Nightfox theme
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme 'nightfox'
+    -- end,
+  },
 
-  -- {
-  --   -- Theme inspired by Jetbrains
-  --   'doums/dark.nvim',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'dark'
-  --   end,
-  -- },
+  {
+    -- Theme inspired by Jetbrains
+    'doums/dark.nvim',
+    lazy = false,
+    priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme 'dark'
+    -- end,
+  },
 
   {
     -- Theme inspired by Atom
@@ -41,38 +41,38 @@ require("lazy").setup({
     end,
   },
 
-  -- {
-  --   -- Tokyo Night theme
-  --   "folke/tokyonight.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'tokyonight-night'
-  --   end,
-  -- },
+  {
+    -- Tokyo Night theme
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme 'tokyonight-night'
+    -- end,
+  },
 
-  -- {
-  --   -- Catppuccin theme
-  --   "catppuccin/nvim",
-  --   name = "catppuccin",
-  --   priority = 1000,
-  --   config = function()
-  --     require("catppuccin").setup({
-  --       flavor = "mocha",
-  --       integrations = {
-  --         cmp = true,
-  --         gitsigns = true,
-  --         nvimtree = true,
-  --         treesitter = true,
-  --         which_key = true,
-  --         mini = {
-  --           enabled = true,
-  --         },
-  --       },
-  --     })
-  --     vim.cmd.colorscheme 'catppuccin'
-  --   end,
-  -- },
+  {
+    -- Catppuccin theme
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        flavor = "mocha",
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          which_key = true,
+          mini = {
+            enabled = true,
+          },
+        },
+      })
+      -- vim.cmd.colorscheme 'catppuccin'
+    end,
+  },
 
   -- Git related plugins
   { "tpope/vim-fugitive" },
@@ -192,16 +192,16 @@ require("lazy").setup({
         }
       end, { desc = "[C]ode [F]ormat" })
 
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = vim.api.nvim_create_augroup("custom-conform", { clear = true }),
-        callback = function(args)
-          require("conform").format {
-            bufnr = args.buf,
-            lsp_fallback = true,
-            quiet = true,
-          }
-        end,
-      })
+      -- vim.api.nvim_create_autocmd("BufWritePre", {
+      --   group = vim.api.nvim_create_augroup("custom-conform", { clear = true }),
+      --   callback = function(args)
+      --     require("conform").format {
+      --       bufnr = args.buf,
+      --       lsp_fallback = true,
+      --       quiet = true,
+      --     }
+      --   end,
+      -- })
     end,
   },
 
@@ -313,11 +313,13 @@ require("lazy").setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
     main = "ibl",
-    opts = {
-      scope = {
-        enabled = false,
-      },
-    },
+    config = function()
+      require("ibl").setup({
+        scope = {
+          enabled = false,
+        },
+      })
+    end,
   },
 
   -- "gc" to comment visual regions/lines
@@ -341,6 +343,9 @@ require("lazy").setup({
           return vim.fn.executable "make" == 1
         end,
       },
+      "nvim-telescope/telescope-smart-history.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
+      "kkharji/sqlite.lua",
     },
   },
 
@@ -387,6 +392,13 @@ require("lazy").setup({
     },
   },
 
+  -- File explorer
+  {
+    "stevearc/oil.nvim",
+    opts = {},
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },    
+
   -- Undo history
   { "mbbill/undotree" },
 
@@ -422,9 +434,7 @@ require("lazy").setup({
     config = true,
     opts = {
       -- check_ts = true,
-      -- fast_wrap = {
-      --   chars = { '{', '[', '(', '"', "'" },
-      -- },
+      fast_wrap = {},
     },
   },
 }, {})
