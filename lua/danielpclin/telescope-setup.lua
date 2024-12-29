@@ -5,6 +5,22 @@ local actions = require "telescope.actions"
 
 require("telescope").setup {
   defaults = {
+    file_ignore_patterns = {
+      ".git/",
+      "node_modules/",
+      "dist/",
+      ".venv/",
+    },
+    -- vimgrep_arguments = {
+    --   "rg",
+    --   "--color=never",
+    --   "--no-heading",
+    --   "--with-filename",
+    --   "--line-number",
+    --   "--column",
+    --   "--smart-case",
+    --   "--hidden",
+    -- },
     mappings = {
       i = {
         ["<C-u>"] = false,
@@ -13,10 +29,23 @@ require("telescope").setup {
     },
   },
   pickers = {
+    find_files = {
+      hidden = true,
+    },
+    live_grep = {
+      additional_args = function()
+        return { "--hidden" }
+      end,
+    },
+    grep_string = {
+      additional_args = function()
+        return { "--hidden" }
+      end,
+    },
     buffers = {
       mappings = {
         i = {
-          ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+          ["<C-d>"] = actions.delete_buffer,
         },
       },
     },
@@ -24,11 +53,11 @@ require("telescope").setup {
   extentions = {
     fzf = {},
     history = {
-      path = '~/.local/share/nvim/databases/telescope_history.sqlite3',
+      path = "~/.local/share/nvim/databases/telescope_history.sqlite3",
       limit = 100,
     },
-    ['ui-select'] = {
-      require('telescope.themes').get_dropdown(),
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown(),
     },
   },
 }
@@ -36,9 +65,9 @@ require("telescope").setup {
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "smart_history")
-pcall(require('telescope').load_extension, 'ui-select')
+pcall(require("telescope").load_extension, "ui-select")
 
-local builtin = require 'telescope.builtin'
+local builtin = require "telescope.builtin"
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
 local function find_git_root()
@@ -82,7 +111,7 @@ vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find exis
 vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "Search [G]it [F]iles" })
 vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
 vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
 vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[S]earch by [G]rep on Git Root" })
@@ -99,16 +128,16 @@ end, { desc = "[/] Fuzzily search in current buffer" })
 
 -- It's also possible to pass additional configuration options.
 --  See `:help telescope.builtin.live_grep()` for information about particular keys
-vim.keymap.set('n', '<leader>s/', function()
+vim.keymap.set("n", "<leader>s/", function()
   builtin.live_grep {
     grep_open_files = true,
-    prompt_title = 'Live Grep in Open Files',
+    prompt_title = "Live Grep in Open Files",
   }
-end, { desc = '[S]earch [/] in Open Files' })
+end, { desc = "[S]earch [/] in Open Files" })
 
 -- Shortcut for searching your Neovim configuration files
-vim.keymap.set('n', '<leader>sn', function()
-  builtin.find_files { cwd = vim.fn.stdpath 'config' }
-end, { desc = '[S]earch [N]eovim files' })
+vim.keymap.set("n", "<leader>sn", function()
+  builtin.find_files { cwd = vim.fn.stdpath "config" }
+end, { desc = "[S]earch [N]eovim files" })
 
 -- vim: ts=2 sts=2 sw=2 et

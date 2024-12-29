@@ -2,6 +2,7 @@
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
+  ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
@@ -100,17 +101,17 @@ vim.defer_fn(function()
           ["[L"] = { query = "@loop.outer", desc = "Prev loop end" },
         },
       },
-      swap = {
-        enable = true,
-        swap_next = {
-          ["<leader>na"] = "@parameter.inner", -- swap parameters/argument with next
-          ["<leader>nm"] = "@function.outer", -- swap function with next
-        },
-        swap_previous = {
-          ["<leader>pa"] = "@parameter.inner", -- swap parameters/argument with prev
-          ["<leader>pm"] = "@function.outer", -- swap function with previous
-        },
-      },
+      -- swap = {
+      --   enable = true,
+      --   swap_next = {
+      --     ["<leader>na"] = "@parameter.inner", -- swap parameters/argument with next
+      --     ["<leader>nm"] = "@function.outer", -- swap function with next
+      --   },
+      --   swap_previous = {
+      --     ["<leader>pa"] = "@parameter.inner", -- swap parameters/argument with prev
+      --     ["<leader>pm"] = "@function.outer", -- swap function with previous
+      --   },
+      -- },
     },
   }
 

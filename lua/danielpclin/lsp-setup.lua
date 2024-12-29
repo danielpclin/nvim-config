@@ -65,6 +65,7 @@ require("mason-tool-installer").setup {
     "black", -- python formatter
     "pylint", -- python linter
     "eslint_d", -- js linter
+    "ansible-lint", --ansible linter
   },
 }
 
@@ -98,6 +99,8 @@ local servers = {
       },
     },
   },
+  dockerls = {},
+  docker_compose_language_service = {},
 }
 
 -- Setup neovim lua configuration

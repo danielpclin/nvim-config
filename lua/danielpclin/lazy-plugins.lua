@@ -19,7 +19,7 @@ require("lazy").setup({
 
   {
     -- Theme inspired by Jetbrains
-    'doums/dark.nvim',
+    "doums/dark.nvim",
     lazy = false,
     priority = 1000,
     -- config = function()
@@ -57,7 +57,7 @@ require("lazy").setup({
     name = "catppuccin",
     priority = 1000,
     config = function()
-      require("catppuccin").setup({
+      require("catppuccin").setup {
         flavor = "mocha",
         integrations = {
           cmp = true,
@@ -69,13 +69,35 @@ require("lazy").setup({
             enabled = true,
           },
         },
-      })
+      }
       -- vim.cmd.colorscheme 'catppuccin'
     end,
   },
 
   -- Git related plugins
-  { "tpope/vim-fugitive" },
+  {
+    "tpope/vim-fugitive",
+    config = function()
+      vim.keymap.set("n", "<leader>gg", "<cmd>Git<CR>", { desc = "[G]it Fu[G]itive status" })
+      vim.keymap.set("n", "<leader>ggg", ":Git ", { desc = "[G]it Fu[G]itive command" })
+      vim.keymap.set("n", "<leader>gs", "<cmd>Git status<CR>", { desc = "[G]it [S]tatus" })
+      vim.keymap.set("n", "<leader>gaf", "<cmd>Git add %<CR>", { desc = "[G]it [A]dd Current [F]ile" })
+      vim.keymap.set("n", "<leader>gad", "<cmd>Git add %:h<CR>", { desc = "[G]it [A]dd Current [D]irectory" })
+      vim.keymap.set("n", "<leader>gc", "<cmd>Git commit -v -q<CR>", { desc = "[G]it [C]ommit" })
+      -- vim.keymap.set("n", "<leader>gca", ":Git commit --amend", { desc = "[G]it [C]ommit [A]mend" })
+      -- vim.keymap.set("n", "<leader>gcc", "<cmd>Git commit -v -q %:p<CR>", { desc = "[G]it [C]ommit [C]urrent file" })
+      vim.keymap.set("n", "<leader>gd", "<cmd>Git diff<CR>", { desc = "[G]it [D]iff" })
+      -- vim.keymap.set("n", "<leader>gds", ":Gdiffsplit", { desc = "[G]it [D]iff [S]plit view" })
+      vim.keymap.set("n", "<leader>ge", "<cmd>Gedit<CR>", { desc = "[G]it [E]dit index" })
+      vim.keymap.set("n", "<leader>gr", "<cmd>Gread<CR>", { desc = "[G]it [R]ead index" })
+      vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<CR>", { desc = "[G]it [W]rite against index" })
+      vim.keymap.set("n", "<leader>gps", "<cmd>Git push<CR>", { desc = "[G]it [P]u[s]h" })
+      vim.keymap.set("n", "<leader>gpl", "<cmd>Git pull<CR>", { desc = "[G]it [P]u[l]l" })
+      vim.keymap.set("n", "<leader>gm", ":Gmove ", { desc = "[G]it [M]ove index" })
+      vim.keymap.set("n", "<leader>gb", ":Git branch ", { desc = "[G]it [B]ranch" })
+      vim.keymap.set("n", "<leader>go", ":Git checkout ", { desc = "[G]it Check[O]ut" })
+    end,
+  },
   { "tpope/vim-rhubarb" },
 
   -- Detect tabstop and shiftwidth automatically
@@ -101,6 +123,9 @@ require("lazy").setup({
 
       -- Additional lua configuration, makes nvim stuff amazing!
       "folke/neodev.nvim",
+
+      -- Ansible ft setup
+      "mfussenegger/nvim-ansible",
     },
   },
 
@@ -120,6 +145,9 @@ require("lazy").setup({
       -- Adds LSP completion capabilities
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lsp-signature-help",
+
+      -- Adds calculator to completion
+      "hrsh7th/cmp-calc",
 
       -- Adds a number of user-friendly snippets
       -- 'rafamadriz/friendly-snippets',
@@ -314,11 +342,11 @@ require("lazy").setup({
     -- See `:help ibl`
     main = "ibl",
     config = function()
-      require("ibl").setup({
+      require("ibl").setup {
         scope = {
           enabled = false,
         },
-      })
+      }
     end,
   },
 
@@ -397,7 +425,7 @@ require("lazy").setup({
     "stevearc/oil.nvim",
     opts = {},
     dependencies = { "nvim-tree/nvim-web-devicons" },
-  },    
+  },
 
   -- Undo history
   { "mbbill/undotree" },
@@ -428,6 +456,7 @@ require("lazy").setup({
     },
   },
 
+  -- Autopairs
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -435,6 +464,115 @@ require("lazy").setup({
     opts = {
       -- check_ts = true,
       fast_wrap = {},
+    },
+  },
+
+  -- Hide secrets
+  { "laytan/cloak.nvim", opts = {} },
+
+  -- Competitive programming helper
+  {
+    "xeluxee/competitest.nvim",
+    dependencies = "MunifTanjim/nui.nvim",
+    config = function()
+      require("competitest").setup {
+        testcases_directory = "./testcases",
+        evaluate_template_modifiers = true,
+        template_file = vim.fn.stdpath "config" .. "/lua/danielpclin/templates/template.$(FEXT)",
+        received_problems_path = "$(HOME)/personal/competitive-programming/$(JUDGE)/$(CONTEST)/$(PROBLEM).$(FEXT)",
+        received_contests_directory = "$(HOME)/personal/competitive-programming/$(JUDGE)/$(CONTEST)",
+        popup_ui = {
+          total_height = 0.9,
+          total_width = 0.9,
+          layout = {
+            { 1, "tc" },
+            { 2, { { 1, "so" }, { 1, "si" } } },
+            { 2, { { 1, "eo" }, { 1, "se" } } },
+          },
+        },
+      }
+    end,
+    keys = {
+      { "<leader>ut", "<cmd>CompetiTest receive testcases<CR>", desc = "[U] CompetiTest Receive [T]estcases" },
+      { "<leader>up", "<cmd>CompetiTest receive problem<CR>", desc = "[U] CompetiTest Receive [P]roblem" },
+      { "<leader>uc", "<cmd>CompetiTest receive contest<CR>", desc = "[U] CompetiTest Receive [C]ontest" },
+      { "<leader>ur", "<cmd>CompetiTest run<CR>", desc = "[U] CompetiTest [R]un" },
+      { "<leader>ue", "<cmd>CompetiTest edit_testcase<CR>", desc = "[U] CompetiTest [E]dit Testcase" },
+      { "<leader>ua", "<cmd>CompetiTest add_testcase<CR>", desc = "[U] CompetiTest [A]dd Testcase" },
+      { "<leader>ud", "<cmd>CompetiTest delete_testcase<CR>", desc = "[U] CompetiTest [D]elete Testcase" },
+    },
+  },
+  -- {
+  --   "A7lavinraj/assistant.nvim",
+  --   dependencies = { "stevearc/dressing.nvim" }, -- optional but recommended
+  --   lazy = false,
+  --   keys = {
+  --     { "<leader>a", "<cmd>AssistantToggle<CR>", desc = "Toggle Assistant.nvim window" },
+  --   },
+  --   opts = {},
+  -- },
+
+  -- Better big files support (disable features on big files)
+  {
+    "LunarVim/bigfile.nvim",
+    opts = {
+      filesize = 2, -- size of the file in MiB, the plugin round file sizes to the closest MiB
+      pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
+      features = { -- features to disable
+        "indent_blankline",
+        "illuminate",
+        "lsp",
+        "treesitter",
+        "syntax",
+        "matchparen",
+        "vimopts",
+        "filetype",
+      },
+    },
+  },
+
+  -- {
+  --   "catgoose/nvim-colorizer.lua",
+  --   event = "BufReadPre",
+  --   opts = { -- set to setup table
+  --     filetypes = {
+  --       "*",
+  --       html = { mode = "background" },
+  --     },
+  --     user_default_options = {
+  --       mode = "background",
+  --     },
+  --   },
+  -- },
+
+  -- perf annotations
+  {
+    "t-troebst/perfanno.nvim",
+    enabled = vim.g.vscode == nil,
+    event = "VeryLazy",
+    config = function()
+      local perfanno = require "perfanno"
+      local util = require "perfanno.util"
+
+      -- local bgcolor = vim.fn.synIDattr(vim.fn.hlID("Normal"), "bg", "gui")
+      perfanno.setup {
+        -- line_highlights = util.make_bg_highlights(bgcolor, "#504ECD", 10),
+        vt_highlight = util.make_fg_highlight "#504ECD",
+      }
+    end,
+    keys = {
+      { "<leader>plf", ":PerfLoadFlat<CR>", noremap = true, silent = true },
+      { "<leader>plg", ":PerfLoadCallGraph<CR>", noremap = true, silent = true },
+      { "<leader>plo", ":PerfLoadFlameGraph<CR>", noremap = true, silent = true },
+      { "<leader>pe", ":PerfPickEvent<CR>", noremap = true, silent = true },
+      { "<leader>pa", ":PerfAnnotate<CR>", noremap = true, silent = true },
+      { "<leader>pf", ":PerfAnnotateFunction<CR>", noremap = true, silent = true },
+      { "<leader>pa", ":PerfAnnotateSelection<CR>", noremap = true, silent = true },
+      { "<leader>pt", ":PerfToggleAnnotations<CR>", noremap = true, silent = true },
+      { "<leader>ph", ":PerfHottestLines<CR>", noremap = true, silent = true },
+      { "<leader>ps", ":PerfHottestSymbols<CR>", noremap = true, silent = true },
+      { "<leader>pc", ":PerfHottestCallersFunction<CR>", noremap = true, silent = true },
+      { "<leader>pc", ":PerfHottestCallersSelection<CR>", noremap = true, silent = true },
     },
   },
 }, {})

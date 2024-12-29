@@ -24,6 +24,10 @@ local kind_formatter = lspkind.cmp_format {
 require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup {}
 
+for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/danielpclin/snippets/*.lua", true)) do
+  loadfile(ft_path)()
+end
+
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -39,7 +43,7 @@ cmp.setup {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-u>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete {},
-    -- ['<M-`>'] = cmp.mapping.complete {}, -- Alternative for CJK IME users -- FIXME: disabled because of bug https://github.com/hrsh7th/nvim-cmp/pull/2107
+    ["<M-`>"] = cmp.mapping.complete {}, -- Alternative for CJK IME users
     ["<CR>"] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
@@ -73,6 +77,7 @@ cmp.setup {
     { name = "luasnip" },
     { name = "nvim_lua" },
     { name = "buffer", keyword_length = 5 },
+    { name = "calc" },
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
@@ -85,9 +90,6 @@ cmp.setup {
 
       return vim_item
     end,
-  },
-  experimental = {
-    -- ghost_text = true,
   },
   sorting = {
     priority_weight = 2,
