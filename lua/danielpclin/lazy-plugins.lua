@@ -479,8 +479,42 @@ require("lazy").setup({
         testcases_directory = "./testcases",
         evaluate_template_modifiers = true,
         template_file = vim.fn.stdpath "config" .. "/lua/danielpclin/templates/template.$(FEXT)",
+        -- received_problems_path = function(task, file_extension)
+        --   local hyphen = string.find(task.group, " - ")
+        --   local judge, contest, filename
+        --   if not hyphen then
+        --     judge = task.group
+        --     contest = "unknown_contest"
+        --   else
+        --     judge = string.sub(task.group, 1, hyphen - 1)
+        --     contest = string.sub(task.group, hyphen + 3)
+        --   end
+        --   if file_extension == "java" then
+        --     filename = task.languages.java.taskClass
+        --   else
+        --     filename = task.name
+        --   end
+        --   return string.format(
+        --     "%s/personal/competitive-programming/%s/%s/%s.%s",
+        --     vim.loop.os_homedir(),
+        --     judge,
+        --     contest,
+        --     filename,
+        --     file_extension
+        --   )
+        -- end,
         received_problems_path = "$(HOME)/personal/competitive-programming/$(JUDGE)/$(CONTEST)/$(PROBLEM).$(FEXT)",
         received_contests_directory = "$(HOME)/personal/competitive-programming/$(JUDGE)/$(CONTEST)",
+        received_contests_problems_path = "$(PROBLEM).$(FEXT)",
+        -- received_contests_problems_path = function(task, file_extension)
+        --   local filename
+        --   if file_extension == "java" then
+        --     filename = task.languages.java.taskClass
+        --   else
+        --     filename = task.name
+        --   end
+        --   return string.format("%s.%s", filename, file_extension)
+        -- end,
         popup_ui = {
           total_height = 0.9,
           total_width = 0.9,
