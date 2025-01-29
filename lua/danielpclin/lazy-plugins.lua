@@ -351,7 +351,14 @@ require("lazy").setup({
   },
 
   -- "gc" to comment visual regions/lines
-  { "numToStr/Comment.nvim", opts = {} },
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup()
+      local ft = require "Comment.ft"
+      ft.set("terraform-vars", { "#%s", "/*%s*/" })
+    end,
+  },
 
   {
     -- Fuzzy Finder (files, lsp, etc)
@@ -546,6 +553,42 @@ require("lazy").setup({
   --   opts = {},
   -- },
 
+  -- Refactoring
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    lazy = false,
+    config = function()
+      require("refactoring").setup()
+
+      vim.keymap.set("x", "<leader>re", ":Refactor extract ")
+      vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
+
+      vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
+
+      vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
+
+      vim.keymap.set("n", "<leader>rI", ":Refactor inline_func")
+
+      vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
+      vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
+      vim.keymap.set({ "n", "x" }, "<leader>rr", function()
+        require("telescope").extensions.refactoring.refactors()
+      end)
+
+      vim.keymap.set({ "x", "n" }, "<leader>rv", function()
+        require("refactoring").debug.print_var()
+      end)
+
+      vim.keymap.set("n", "<leader>rc", function()
+        require("refactoring").debug.cleanup {}
+      end)
+    end,
+  },
+
   -- Better big files support (disable features on big files)
   {
     "LunarVim/bigfile.nvim",
@@ -609,6 +652,48 @@ require("lazy").setup({
       { "<leader>pc", ":PerfHottestCallersSelection<CR>", noremap = true, silent = true },
     },
   },
+
+  -- Markdown support
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
+      code = {
+        sign = false,
+        width = "block",
+        right_pad = 1,
+      },
+      heading = {
+        sign = false,
+        icons = {},
+      },
+      checkbox = {
+        enabled = false,
+      },
+    },
+  },
+
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+    keys = {
+      { "<leader>vm", "<cmd>MarkdownPreview<CR>", noremap = true, silent = true },
+    },
+  },
+
+  -- -- Github copilot
+  -- {
+  --   "github/copilot.vim"
+  -- },
 }, {})
 
 -- vim: ts=2 sts=2 sw=2 et

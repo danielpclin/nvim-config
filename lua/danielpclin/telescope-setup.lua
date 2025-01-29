@@ -23,8 +23,8 @@ require("telescope").setup {
     -- },
     mappings = {
       i = {
-        ["<C-u>"] = false,
-        ["<C-d>"] = false,
+        -- ["<C-u>"] = false,
+        -- ["<C-d>"] = false,
       },
     },
   },
@@ -45,7 +45,7 @@ require("telescope").setup {
     buffers = {
       mappings = {
         i = {
-          ["<C-d>"] = actions.delete_buffer,
+          ["<M-d>"] = actions.delete_buffer,
         },
       },
     },
