@@ -1,21 +1,39 @@
-vim.keymap.set("n", "<leader>xx", function()
-  require("trouble").toggle()
-end, { desc = "[X] Trouble" })
-vim.keymap.set("n", "<leader>xw", function()
-  require("trouble").toggle "workspace_diagnostics"
-end, { desc = "[X] Trouble [W]orkspace Diagnostics" })
-vim.keymap.set("n", "<leader>xd", function()
-  require("trouble").toggle "document_diagnostics"
-end, { desc = "[X] Trouble [D]ocument Diagnostics" })
-vim.keymap.set("n", "<leader>xq", function()
-  require("trouble").toggle "quickfix"
-end, { desc = "[X] Trouble [Q]uickfix" })
-vim.keymap.set("n", "<leader>xl", function()
-  require("trouble").toggle "loclist"
-end, { desc = "[X] Trouble [L]oclist" })
--- vim.keymap.set("n", "<leader>xt", vim.cmd.TodoTrouble, { desc = '[X] Trouble [T]odo' })
-vim.keymap.set("n", "gR", function()
-  require("trouble").toggle "lsp_references"
-end, { desc = "[X] Trouble Lsp [R]eferences" })
+vim.keymap.set(
+  "n",
+  "<leader>xx",
+  "<cmd>Trouble diagnostics toggle<cr>",
+  { desc = "[x][x]Trouble", noremap = true, silent = true }
+)
+vim.keymap.set(
+  "n",
+  "<leader>xX",
+  "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+  { desc = "[x][X]Current Buffer", noremap = true, silent = true }
+)
+vim.keymap.set(
+  "n",
+  "<leader>cs",
+  "<cmd>Trouble symbols toggle focus=false<cr>",
+  { desc = "[C]ode [S]ymbols", noremap = true, silent = true }
+)
+vim.keymap.set(
+  "n",
+  "<leader>xl",
+  "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+  { desc = "[x][l]sp", noremap = true, silent = true }
+)
+vim.keymap.set(
+  "n",
+  "<leader>xq",
+  "<cmd>Trouble qflist toggle<cr>",
+  { desc = "[x][q]uickfix", noremap = true, silent = true }
+)
+vim.keymap.set(
+  "n",
+  "<leader>xL",
+  "<cmd>Trouble loclist toggle<cr>",
+  { desc = "[x][L]oclist", noremap = true, silent = true }
+)
+vim.keymap.set("n", "<leader>xt", "<cmd>Trouble todo toggle<cr>", { desc = "[x][t]odo", noremap = true, silent = true })
 
 -- vim: ts=2 sts=2 sw=2 et

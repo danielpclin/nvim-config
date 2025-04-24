@@ -30,8 +30,8 @@ local on_attach = function(_, bufnr)
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gi", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("<leader>vt", require("telescope.builtin").lsp_type_definitions, "[V]iew [T]ype Definition")
-  nmap("<leader>vds", require("telescope.builtin").lsp_document_symbols, "[V]iew [D]ocument [S]ymbols")
-  nmap("<leader>vws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[V]iew [W]orkspace [S]ymbols")
+  nmap("<leader>sd", require("telescope.builtin").lsp_document_symbols, "[S]earch [D]ocument Symbols")
+  nmap("<leader>ss", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch Workspace [S]ymbols")
 
   -- See `:help K` for why this keymap
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -40,7 +40,7 @@ local on_attach = function(_, bufnr)
   imap("<C-s>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
-  nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+  -- nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
   nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
   nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
   nmap("<leader>wl", function()

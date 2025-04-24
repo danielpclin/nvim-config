@@ -43,11 +43,18 @@ require("telescope").setup {
       end,
     },
     buffers = {
+      sort_mru = true,
       mappings = {
         i = {
           ["<M-d>"] = actions.delete_buffer,
         },
+        n = {
+          ["<M-d>"] = actions.delete_buffer,
+        },
       },
+    },
+    colorscheme = {
+      enable_preview = true,
     },
   },
   extentions = {
@@ -110,12 +117,15 @@ vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find exis
 
 vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "Search [G]it [F]iles" })
 vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+vim.keymap.set("n", "<leader>sF", function()
+  builtin.find_files { no_ignore = true }
+end, { desc = "[S]earch [F]iles ALL" })
 vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
 vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[S]earch by [G]rep on Git Root" })
-vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+vim.keymap.set("n", "<leader>sD", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 
 vim.keymap.set("n", "<leader>/", function()
@@ -139,5 +149,9 @@ end, { desc = "[S]earch [/] in Open Files" })
 vim.keymap.set("n", "<leader>sn", function()
   builtin.find_files { cwd = vim.fn.stdpath "config" }
 end, { desc = "[S]earch [N]eovim files" })
+
+vim.keymap.set("n", "<leader>sN", function()
+  builtin.live_grep { search_dirs = { vim.fn.stdpath "config" } }
+end, { desc = "[S]earch [N]eovim (grep)" })
 
 -- vim: ts=2 sts=2 sw=2 et
