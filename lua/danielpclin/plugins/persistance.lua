@@ -5,16 +5,16 @@ return {
     opts = {},
     keys = {
       {
-        "<leader>qs",
+        "<leader>qq",
         function()
           require("persistence").load()
         end,
         noremap = true,
         silent = true,
-        desc = "[Q]Persistence Load [S]ession",
+        desc = "[QQ]Persistence Load Session",
       },
       {
-        "<leader>qS",
+        "<leader>qs",
         function()
           require("persistence").select()
         end,

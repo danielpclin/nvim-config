@@ -1,6 +1,8 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 
+local transform_mod = require("telescope.actions.mt").transform_mod
+local action_set = require "telescope.actions.set"
 local actions = require "telescope.actions"
 
 require("telescope").setup {
@@ -25,6 +27,8 @@ require("telescope").setup {
       i = {
         -- ["<C-u>"] = false,
         -- ["<C-d>"] = false,
+      },
+      n = {
       },
     },
   },

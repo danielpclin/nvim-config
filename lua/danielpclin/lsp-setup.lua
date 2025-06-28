@@ -53,21 +53,14 @@ local on_attach = function(_, bufnr)
   -- end, { desc = 'Format current buffer with LSP' })
 end
 
--- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
-require("mason").setup()
-require("mason-lspconfig").setup()
-require("mason-tool-installer").setup {
-  ensure_installed = {
-    "prettier", -- prettier formatter
-    "stylua", -- lua formatter
-    "isort", -- python formatter
-    "black", -- python formatter
-    "pylint", -- python linter
-    "eslint_d", -- js linter
-    "ansible-lint", --ansible linter
-  },
-}
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+vim.lsp.config("*", {
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -83,15 +76,57 @@ local servers = {
     --   "clangd", "--header-insertion=never",
     -- },
   },
-  -- gopls = {},
+  gopls = {},
   pyright = {},
   rust_analyzer = {},
   ts_ls = {},
   html = {
     filetypes = { "html" },
   },
-
   lua_ls = {
+    on_init = function(client)
+      if client.workspace_folders then
+        local path = client.workspace_folders[1].name
+        if
+          path ~= vim.fn.stdpath "config"
+          and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+        then
+          return
+        end
+      end
+
+      client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+        runtime = {
+          -- Tell the language server which version of Lua you're using (most
+          -- likely LuaJIT in the case of Neovim)
+          version = "LuaJIT",
+          -- Tell the language server how to find Lua modules same way as Neovim
+          -- (see `:h lua-module-load`)
+          path = {
+            "lua/?.lua",
+            "lua/?/init.lua",
+          },
+        },
+        -- Make the server aware of Neovim runtime files
+        workspace = {
+          checkThirdParty = false,
+          library = {
+            vim.env.VIMRUNTIME,
+            -- Depending on the usage, you might want to add additional paths
+            -- here.
+            -- '${3rd}/luv/library'
+            -- '${3rd}/busted/library'
+          },
+          -- Or pull in all of 'runtimepath'.
+          -- NOTE: this is a lot slower and will cause issues when working on
+          -- your own configuration.
+          -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+          -- library = {
+          --   vim.api.nvim_get_runtime_file('', true),
+          -- }
+        },
+      })
+    end,
     settings = {
       Lua = {
         workspace = { checkThirdParty = false },
@@ -103,34 +138,29 @@ local servers = {
   docker_compose_language_service = {},
 }
 
--- Setup neovim lua configuration
-require("neodev").setup()
+for server_name, config in pairs(servers) do
+  -- vim.print(server_name)
+  -- vim.print(config)
+  vim.lsp.config(server_name, config or {})
+end
 
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
--- Ensure the servers above are installed
-local mason_lspconfig = require "mason-lspconfig"
-
-mason_lspconfig.setup {
+require("mason").setup()
+require("mason-lspconfig").setup {
   ensure_installed = vim.tbl_keys(servers),
 }
-
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    local cfg = {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-    -- Setup settings, cmd etc..
-    for k, v in pairs(servers[server_name] or {}) do
-      cfg[k] = v
-    end
-
-    require("lspconfig")[server_name].setup(cfg)
-  end,
+require("mason-tool-installer").setup {
+  ensure_installed = {
+    "prettier", -- prettier formatter
+    "stylua", -- lua formatter
+    "isort", -- python formatter
+    "black", -- python formatter
+    "pylint", -- python linter
+    "eslint_d", -- js linter
+    "ansible-lint", --ansible linter
+  },
 }
+
+-- Setup neovim lua configuration
+require("neodev").setup()
 
 -- vim: ts=2 sts=2 sw=2 et
