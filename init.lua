@@ -49,5 +49,9 @@ require "danielpclin.trouble-setup"
 -- (pending keybinds)
 require "danielpclin.whichkeys-setup"
 
+-- [[ Configure tmux-sessionizer ]]
+-- (tmux manager)
+require "danielpclin.tmux-sessionizer-setup"
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

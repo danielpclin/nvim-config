@@ -141,11 +141,15 @@ local servers = {
 for server_name, config in pairs(servers) do
   -- vim.print(server_name)
   -- vim.print(config)
+  config["on_attach"] = on_attach
+  config["capabilities"] = capabilities
   vim.lsp.config(server_name, config or {})
+  vim.lsp.enable(server_name)
 end
 
 require("mason").setup()
 require("mason-lspconfig").setup {
+  automatic_enable = false, -- HACK: rely on lspconfig[server_name].setup to enable the LSPs. For some reason, pyright doesn't get enabled this way
   ensure_installed = vim.tbl_keys(servers),
 }
 require("mason-tool-installer").setup {
