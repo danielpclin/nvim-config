@@ -7,6 +7,8 @@ require("which-key").add {
   { "<leader>g_", hidden = true },
   { "<leader>ga", group = "[G]it [A]dd" },
   { "<leader>ga_", hidden = true },
+  { "<leader>gc", group = "[G]it [C]ommit" },
+  { "<leader>gc_", hidden = true },
   { "<leader>gh", group = "[G]it [H]unk" },
   { "<leader>gh_", hidden = true },
   { "<leader>gp", group = "[G]it [P]ush/[P]ull" },

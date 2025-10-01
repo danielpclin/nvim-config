@@ -12,6 +12,7 @@ require("telescope").setup {
       "node_modules/",
       "dist/",
       ".venv/",
+      "build/"
     },
     -- vimgrep_arguments = {
     --   "rg",

@@ -14,13 +14,13 @@ return {
       vim.keymap.set("n", "<leader>gcC", "<cmd>Git commit -v -q<CR>", { desc = "[G]it [C]ommit" })
       vim.keymap.set("n", "<leader>gca", ":Git commit --amend", { desc = "[G]it [C]ommit [A]mend" })
       vim.keymap.set("n", "<leader>gcf", "<cmd>Git commit -v -q %:p<CR>", { desc = "[G]it [C]ommit Current [F]ile" })
-      vim.keymap.set("n", "<leader>gd", "<cmd>Git diff<CR>", { desc = "[G]it [D]iff" })
-      vim.keymap.set("n", "<leader>gD", ":Gdiffsplit", { desc = "[G]it [D]iff Split view" })
+      vim.keymap.set("n", "<leader>gd", ":tab Git diff ", { desc = "[G]it [D]iff" })
+      vim.keymap.set("n", "<leader>gD", ":Gvdiffsplit ", { desc = "[G]it [D]iff Split view" })
       vim.keymap.set("n", "<leader>ge", "<cmd>Gedit<CR>", { desc = "[G]it [E]dit index" })
       vim.keymap.set("n", "<leader>gr", "<cmd>Gread<CR>", { desc = "[G]it [R]ead index" })
       vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<CR>", { desc = "[G]it [W]rite against index" })
       vim.keymap.set("n", "<leader>gps", "<cmd>Git push<CR>", { desc = "[G]it [P]u[s]h" })
-      vim.keymap.set("n", "<leader>gpl", "<cmd>Git pull<CR>", { desc = "[G]it [P]u[l]l" })
+      vim.keymap.set("n", "<leader>gpl", "<cmd>Git pull --recurse-submodules<CR>", { desc = "[G]it [P]u[l]l" })
       vim.keymap.set("n", "<leader>gpf", "<cmd>Git fetch<CR>", { desc = "[G]it [P] [F]etch" })
       vim.keymap.set("n", "<leader>gm", ":Gmove ", { desc = "[G]it [M]ove index" })
       vim.keymap.set("n", "<leader>gb", ":Git branch ", { desc = "[G]it [B]ranch" })
@@ -42,6 +42,7 @@ return {
         topdelete = { text = "‾" },
         changedelete = { text = "~" },
       },
+      current_line_blame = true,
       on_attach = function(bufnr)
         vim.keymap.set(
           "n",
