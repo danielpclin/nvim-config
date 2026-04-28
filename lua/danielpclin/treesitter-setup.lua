@@ -1,127 +1,110 @@
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
-  ---@diagnostic disable-next-line: missing-fields
-  require("nvim-treesitter.configs").setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = {
-      "c",
-      "cpp",
-      "go",
-      "lua",
-      "python",
-      "rust",
-      "tsx",
-      "javascript",
-      "typescript",
-      "vimdoc",
-      "vim",
-      "bash",
+  -- Install parsers (no-op if already installed)
+  require("nvim-treesitter").install({
+    "c", "cpp", "go", "lua", "python", "rust",
+    "tsx", "javascript", "typescript", "vimdoc", "vim", "bash",
+  }, { summary = false }):wait(30000)
+
+  -- Enable highlighting for current and future buffers
+  vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("treesitter-highlight", { clear = true }),
+    pattern = "*",
+    callback = function(ev)
+      pcall(vim.treesitter.start, ev.buf)
+    end,
+  })
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) then
+      pcall(vim.treesitter.start, buf)
+    end
+  end
+
+  -- Incremental selection
+  vim.keymap.set("n", "<CR>", function()
+    require("nvim-treesitter.incremental_selection").init()
+  end, { desc = "Init treesitter selection" })
+  vim.keymap.set("x", "<CR>", function()
+    require("nvim-treesitter.incremental_selection").increment()
+  end, { desc = "Increment treesitter selection" })
+  vim.keymap.set("x", "<BS>", function()
+    require("nvim-treesitter.incremental_selection").decrement()
+  end, { desc = "Decrement treesitter selection" })
+
+  -- Textobjects
+  require("nvim-treesitter-textobjects").setup({
+    select = {
+      lookahead = true,
+      include_surrounding_whitespace = false,
     },
-
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
-
-    highlight = { enable = true },
-    indent = { enable = true },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = "<CR>",
-        node_incremental = "<CR>",
-        node_decremental = "<BS>",
-        scope_incremental = "<M-`>",
-      },
+    move = {
+      set_jumps = true,
     },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
-          ["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
-          ["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
-          ["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
+  })
 
-          ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
-          ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
-
-          ["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
-          ["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
-
-          ["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
-          ["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
-
-          ["af"] = { query = "@call.outer", desc = "Select outer part of a function call" },
-          ["if"] = { query = "@call.inner", desc = "Select inner part of a function call" },
-
-          ["am"] = { query = "@function.outer", desc = "Select outer part of a method/function definition" },
-          ["im"] = { query = "@function.inner", desc = "Select inner part of a method/function definition" },
-
-          ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
-          ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          ["]f"] = { query = "@call.outer", desc = "Next function call start" },
-          ["]m"] = { query = "@function.outer", desc = "Next method/function def start" },
-          ["]c"] = { query = "@class.outer", desc = "Next class start" },
-          ["]i"] = { query = "@conditional.outer", desc = "Next conditional start" },
-          ["]l"] = { query = "@loop.outer", desc = "Next loop start" },
-
-          -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-          -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-          ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-          ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-        },
-        goto_next_end = {
-          ["]F"] = { query = "@call.outer", desc = "Next function call end" },
-          ["]M"] = { query = "@function.outer", desc = "Next method/function def end" },
-          ["]C"] = { query = "@class.outer", desc = "Next class end" },
-          ["]I"] = { query = "@conditional.outer", desc = "Next conditional end" },
-          ["]L"] = { query = "@loop.outer", desc = "Next loop end" },
-        },
-        goto_previous_start = {
-          ["[f"] = { query = "@call.outer", desc = "Prev function call start" },
-          ["[m"] = { query = "@function.outer", desc = "Prev method/function def start" },
-          ["[c"] = { query = "@class.outer", desc = "Prev class start" },
-          ["[i"] = { query = "@conditional.outer", desc = "Prev conditional start" },
-          ["[l"] = { query = "@loop.outer", desc = "Prev loop start" },
-        },
-        goto_previous_end = {
-          ["[F"] = { query = "@call.outer", desc = "Prev function call end" },
-          ["[M"] = { query = "@function.outer", desc = "Prev method/function def end" },
-          ["[C"] = { query = "@class.outer", desc = "Prev class end" },
-          ["[I"] = { query = "@conditional.outer", desc = "Prev conditional end" },
-          ["[L"] = { query = "@loop.outer", desc = "Prev loop end" },
-        },
-      },
-      -- swap = {
-      --   enable = true,
-      --   swap_next = {
-      --     ["<leader>na"] = "@parameter.inner", -- swap parameters/argument with next
-      --     ["<leader>nm"] = "@function.outer", -- swap function with next
-      --   },
-      --   swap_previous = {
-      --     ["<leader>pa"] = "@parameter.inner", -- swap parameters/argument with prev
-      --     ["<leader>pm"] = "@function.outer", -- swap function with previous
-      --   },
-      -- },
-    },
+  -- Select keymaps
+  local select_to = require("nvim-treesitter-textobjects.select")
+  local select_maps = {
+    ["a="] = { "@assignment.outer", "Select outer part of an assignment" },
+    ["i="] = { "@assignment.inner", "Select inner part of an assignment" },
+    ["l="] = { "@assignment.lhs", "Select left hand side of an assignment" },
+    ["r="] = { "@assignment.rhs", "Select right hand side of an assignment" },
+    ["aa"] = { "@parameter.outer", "Select outer part of a parameter/argument" },
+    ["ia"] = { "@parameter.inner", "Select inner part of a parameter/argument" },
+    ["ai"] = { "@conditional.outer", "Select outer part of a conditional" },
+    ["ii"] = { "@conditional.inner", "Select inner part of a conditional" },
+    ["al"] = { "@loop.outer", "Select outer part of a loop" },
+    ["il"] = { "@loop.inner", "Select inner part of a loop" },
+    ["af"] = { "@call.outer", "Select outer part of a function call" },
+    ["if"] = { "@call.inner", "Select inner part of a function call" },
+    ["am"] = { "@function.outer", "Select outer part of a method/function definition" },
+    ["im"] = { "@function.inner", "Select inner part of a method/function definition" },
+    ["ac"] = { "@class.outer", "Select outer part of a class" },
+    ["ic"] = { "@class.inner", "Select inner part of a class" },
   }
+  for key, val in pairs(select_maps) do
+    vim.keymap.set({ "x", "o" }, key, function()
+      select_to.select_textobject(val[1], "textobjects")
+    end, { desc = val[2] })
+  end
 
-  local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
+  -- Move keymaps
+  local move = require("nvim-treesitter-textobjects.move")
+  local move_maps = {
+    ["]f"] = { move.goto_next_start, "@call.outer", "Next function call start" },
+    ["]m"] = { move.goto_next_start, "@function.outer", "Next method/function def start" },
+    ["]c"] = { move.goto_next_start, "@class.outer", "Next class start" },
+    ["]i"] = { move.goto_next_start, "@conditional.outer", "Next conditional start" },
+    ["]l"] = { move.goto_next_start, "@loop.outer", "Next loop start" },
+    ["]s"] = { move.goto_next_start, "@local.scope", "Next scope", "locals" },
+    ["]z"] = { move.goto_next_start, "@fold", "Next fold", "folds" },
+    ["]F"] = { move.goto_next_end, "@call.outer", "Next function call end" },
+    ["]M"] = { move.goto_next_end, "@function.outer", "Next method/function def end" },
+    ["]C"] = { move.goto_next_end, "@class.outer", "Next class end" },
+    ["]I"] = { move.goto_next_end, "@conditional.outer", "Next conditional end" },
+    ["]L"] = { move.goto_next_end, "@loop.outer", "Next loop end" },
+    ["[f"] = { move.goto_previous_start, "@call.outer", "Prev function call start" },
+    ["[m"] = { move.goto_previous_start, "@function.outer", "Prev method/function def start" },
+    ["[c"] = { move.goto_previous_start, "@class.outer", "Prev class start" },
+    ["[i"] = { move.goto_previous_start, "@conditional.outer", "Prev conditional start" },
+    ["[l"] = { move.goto_previous_start, "@loop.outer", "Prev loop start" },
+    ["[F"] = { move.goto_previous_end, "@call.outer", "Prev function call end" },
+    ["[M"] = { move.goto_previous_end, "@function.outer", "Prev method/function def end" },
+    ["[C"] = { move.goto_previous_end, "@class.outer", "Prev class end" },
+    ["[I"] = { move.goto_previous_end, "@conditional.outer", "Prev conditional end" },
+    ["[L"] = { move.goto_previous_end, "@loop.outer", "Prev loop end" },
+  }
+  for key, val in pairs(move_maps) do
+    vim.keymap.set({ "n", "x", "o" }, key, function()
+      val[1](val[2], val[4] or "textobjects")
+    end, { desc = val[3] })
+  end
 
-  -- vim way: ; goes to the direction you were moving.
+  -- Repeatable moves with ; and ,
+  local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
   vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
   vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
-  -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
   vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
   vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
   vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })

@@ -28,9 +28,9 @@ vim.opt.scrolloff = 8
 vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
 
--- Setup folds with treesitter
+-- Setup folds with treesitter (use builtin expr, the nvim-treesitter one blocks UI on scroll)
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 
 -- Enable mouse mode
