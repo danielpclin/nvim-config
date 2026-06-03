@@ -147,6 +147,7 @@ function M.build_interactive()
     "crane",
     "patria,merci,jupiter,firefly,andytowngateway",
     "patria,merci,jupiter,firefly,andytowngateway,eden,trieste,crane,novo",
+    "patria,jupiter,merci,eden,trieste,firefly,fireflyalc,fireflyextender,andytowngateway,crane,novo",
   }
 
   vim.ui.select(options, { prompt = "Branch override mode:" }, function(choice)
