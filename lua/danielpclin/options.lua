@@ -36,6 +36,32 @@ vim.opt.foldenable = false
 -- Enable mouse mode
 vim.opt.mouse = "a"
 
+-- WSL clipboard: use win32yank so yanks reach the Windows system clipboard.
+-- IMPORTANT: run a copy of win32yank.exe that lives on the *Windows*
+-- filesystem. Launching it from the WSL (9p) filesystem adds a 3-5s
+-- cold-start penalty to every yank after a short idle; a Windows-native
+-- copy launches in ~0.05s. cache_enabled = 0 avoids stale reads.
+if vim.fn.has "wsl" == 1 then
+  local win32yank = "/mnt/c/Users/danielpclin/bin/win32yank.exe"
+  if vim.fn.executable(win32yank) == 0 then
+    win32yank = "win32yank.exe" -- fall back to whatever is on PATH
+  end
+  if vim.fn.executable(win32yank) == 1 then
+    vim.g.clipboard = {
+      name = "win32yank",
+      copy = {
+        ["+"] = { win32yank, "-i", "--crlf" },
+        ["*"] = { win32yank, "-i", "--crlf" },
+      },
+      paste = {
+        ["+"] = { win32yank, "-o", "--lf" },
+        ["*"] = { win32yank, "-o", "--lf" },
+      },
+      cache_enabled = 0,
+    }
+  end
+end
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
