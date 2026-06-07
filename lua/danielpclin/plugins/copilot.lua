@@ -1,6 +1,6 @@
 -- Copilot related plugins
 return {
   -- {
-  --   "github/copilot.vim"
+  --   "github/copilot.vim",
   -- },
 }
